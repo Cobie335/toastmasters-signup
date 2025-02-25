@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toastmasters Role Signup</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>TOASTMASTERS INTERNATIONAL</h1>
+        <h2>Tea Tree Gully Toastmaster Club</h2>
+    </div>
+    
+    <div class="admin-bar">
+        <button id="adminButton" class="admin-button">Enter Admin Mode</button>
+    </div>
+    
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3>Meeting Role Management System</h3>
+                <p>Click on an available slot to sign up. Click again to remove your name.</p>
+            </div>
+            <div class="card-body">
+                <table id="roleTable">
+                    <thead>
+                        <tr>
+                            <th>Role</th>
+                            <!-- Meeting dates will be filled by JavaScript -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Roles and spots will be filled by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="adminTools" style="display: none; margin-top: 20px;">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Admin Tools</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Role Management Section -->
+                    <div class="admin-section">
+                        <h4>Role Management</h4>
+                        <div class="roles-list" id="rolesList">
+                            <!-- Roles will be populated here -->
+                        </div>
+                        
+                        <div class="admin-fields-row">
+                            <div class="admin-field">
+                                <label class="form-label">Role Name</label>
+                                <input type="text" id="newRoleName" class="form-input" placeholder="e.g., Pathway Speeches">
+                            </div>
+                            <div class="admin-field">
+                                <label class="form-label">Number of Spots</label>
+                                <input type="number" id="newRoleSpots" class="form-input" min="1" value="1">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <input type="checkbox" id="requiresDetailsCheck"> Requires Additional Details
+                            </label>
+                        </div>
+                        
+                        <div id="detailFieldsContainer" style="display: none;">
+                            <h5>Detail Fields:</h5>
+                            <div class="field-items" id="detailFieldsList">
+                                <!-- Detail fields will be added here -->
+                            </div>
+                            
+                            <div class="admin-fields-row">
+                                <div class="admin-field">
+                                    <label class="form-label">Field Name</label>
+                                    <input type="text" id="fieldName" class="form-input" placeholder="e.g., speechTitle">
+                                </div>
+                                <div class="admin-field">
+                                    <label class="form-label">Field Label</label>
+                                    <input type="text" id="fieldLabel" class="form-input" placeholder="e.g., Speech Title">
+                                </div>
+                            </div>
+                            
+                            <div class="admin-fields-row">
+                                <div class="admin-field">
+                                    <label class="form-label">Field Type</label>
+                                    <select id="fieldType" class="form-select">
+                                        <option value="text">Text Input</option>
+                                        <option value="select">Dropdown</option>
+                                    </select>
+                                </div>
+                                <div class="admin-field" id="optionsField" style="display: none;">
+                                    <label class="form-label">Options (comma separated)</label>
+                                    <input type="text" id="fieldOptions" class="form-input" placeholder="Option1, Option2, Option3">
+                                </div>
+                            </div>
+                            
+                            <div class="admin-field">
+                                <label class="form-label">Example Text (optional)</label>
+                                <input type="text" id="fieldExample" class="form-input" placeholder="e.g., Level 1, Intro To Vocal Variety">
+                            </div>
+                            
+                            <button id="addFieldButton" class="button button-primary" style="margin-top: 10px;">Add Field</button>
+                        </div>
+                        
+                        <button id="addRoleButton" class="button button-primary" style="margin-top: 15px;">Add Role</button>
+                    </div>
+                    
+                    <!-- Meeting Dates Management Section -->
+                    <div class="admin-section">
+                        <h4>Meeting Dates Management</h4>
+                        
+                        <div class="admin-fields-row">
+                            <div class="admin-field">
+                                <label class="form-label">Start Date</label>
+                                <input type="date" id="startDate" class="form-input">
+                            </div>
+                            <div class="admin-field">
+                                <label class="form-label">Number of Meetings</label>
+                                <input type="number" id="numMeetings" class="form-input" min="1" max="24" value="8">
+                            </div>
+                            <div class="admin-field">
+                                <label class="form-label">Interval (days)</label>
+                                <input type="number" id="meetingInterval" class="form-input" min="1" value="14">
+                            </div>
+                        </div>
+                        
+                        <button id="generateDatesButton" class="button button-primary">Generate Meeting Dates</button>
+                        
+                        <div class="meetings-list" id="meetingsList">
+                            <!-- Meeting dates will be displayed here -->
+                        </div>
+                        
+                        <!-- Individual date adding -->
+                        <div style="margin-top: 15px;">
+                            <h5>Add Individual Meeting Date:</h5>
+                            <div class="admin-fields-row">
+                                <div class="admin-field">
+                                    <input type="date" id="singleMeetingDate" class="form-input">
+                                </div>
+                                <div>
+                                    <button id="addSingleDateButton" class="button button-primary">Add Date</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Export/Import Section -->
+                    <div class="admin-section">
+                        <h4>Data Export/Import</h4>
+                        <p>Save your data to keep it safe:</p>
+                        
+                        <div class="export-import">
+                            <button id="exportButton" class="button button-primary">Export Data</button>
+                            <button id="importButton" class="button button-primary">Import Data</button>
+                        </div>
+                        
+                        <textarea id="dataArea" class="data-area" placeholder="Copy your data here to save it or import it"></textarea>
+                        
+                        <p>To save your data:</p>
+                        <ol>
+                            <li>Click "Export Data"</li>
+                            <li>Copy all the text in the box</li>
+                            <li>Save it in a text file</li>
+                        </ol>
+                        
+                        <p>To restore your data:</p>
+                        <ol>
+                            <li>Paste the saved text into the box</li>
+                            <li>Click "Import Data"</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">Admin Login</div>
+            <div class="form-group">
+                <input type="password" id="adminPassword" class="form-input" placeholder="Enter admin password">
+            </div>
+            <div class="button-group">
+                <button class="button button-cancel" onclick="closeAdminModal()">Cancel</button>
+                <button class="button button-primary" onclick="handleAdminLogin()">Login</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">Additional Information Required</div>
+            <div id="detailsForm">
+                <!-- Detail fields will be filled by JavaScript -->
+            </div>
+            <div class="button-group">
+                <button class="button button-cancel" onclick="closeDetailsModal()">Cancel</button>
+                <button class="button button-primary" onclick="confirmSignup()">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
